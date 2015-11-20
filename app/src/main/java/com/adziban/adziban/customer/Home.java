@@ -19,7 +19,7 @@ import android.view.MenuItem;
 import com.adziban.adziban.R;
 
 public class Home extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, CanteenFragment.CanteenOnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, CanteenFragment.CanteenOnFragmentInteractionListener, HistoryFragment.HistoryOnFragmentInteractionListener, CartFragment.CartOnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

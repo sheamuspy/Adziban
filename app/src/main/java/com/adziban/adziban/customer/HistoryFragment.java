@@ -21,7 +21,7 @@ import com.adziban.adziban.customer.dummy.DummyContent;
  * Large screen devices (such as tablets) are supported by replacing the ListView
  * with a GridView.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link HistoryOnFragmentInteractionListener}
  * interface.
  */
 public class HistoryFragment extends Fragment implements AbsListView.OnItemClickListener {
@@ -35,7 +35,7 @@ public class HistoryFragment extends Fragment implements AbsListView.OnItemClick
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private HistoryOnFragmentInteractionListener mListener;
 
     /**
      * The fragment's ListView/GridView.
@@ -98,10 +98,10 @@ public class HistoryFragment extends Fragment implements AbsListView.OnItemClick
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (HistoryOnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement CartOnFragmentInteractionListener");
         }
     }
 
@@ -143,7 +143,7 @@ public class HistoryFragment extends Fragment implements AbsListView.OnItemClick
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface HistoryOnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
     }
