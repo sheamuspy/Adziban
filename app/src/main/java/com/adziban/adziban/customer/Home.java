@@ -1,5 +1,8 @@
 package com.adziban.adziban.customer;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,8 +16,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class Canteens extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import com.adziban.adziban.R;
+
+public class Home extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, CanteenFragment.CanteenOnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,23 +84,45 @@ public class Canteens extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment fragment = null;
+        String title="";
 
-        if (id == R.id.nav_camara) {
+        if (id == R.id.nav_canteen) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            fragment = new CanteenFragment();
+            title="Canteens";
+        } else if (id == R.id.nav_cart) {
+            fragment = new CartFragment();
+            title="My Cart";
+        } else if (id == R.id.nav_history) {
+            fragment = new HistoryFragment();
+            title = "History";
+        } else if (id == R.id.nav_logout) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
+        } /*else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
+        }*/
+
+        if(fragment!=null){
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.main,fragment);
+            fragmentTransaction.commit();
+            getSupportActionBar().setTitle(title);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
+
+
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(String id) {
+
     }
 }

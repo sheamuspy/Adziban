@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".customer.Canteens"
+            android:name=".customer.Home"
             android:label="@string/title_activity_canteens"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
