@@ -32,6 +32,10 @@ public class MenuAdapter extends ArrayAdapter<MenuItem> {
         TextView foodName = (TextView) convertView.findViewById(R.id.foodname);
         TextView foodPrice = (TextView) convertView.findViewById(R.id.foodprice);
 
+        foodPortion.setText(menuItem.foodPortion);
+        foodName.setText(menuItem.foodName);
+        foodPrice.setText(Double.toString(menuItem.foodPrice));
+
         return convertView;
 
     }

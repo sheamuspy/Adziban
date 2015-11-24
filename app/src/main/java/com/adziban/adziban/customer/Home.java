@@ -32,7 +32,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Home extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, CanteenFragment.CanteenOnFragmentInteractionListener, HistoryFragment.HistoryOnFragmentInteractionListener, CartFragment.CartOnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, CanteenFragment.CanteenOnFragmentInteractionListener, HistoryFragment.HistoryOnFragmentInteractionListener, CartFragment.CartOnFragmentInteractionListener, MenuFragment.MenuOnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

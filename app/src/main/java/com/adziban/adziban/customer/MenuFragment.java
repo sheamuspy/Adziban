@@ -3,6 +3,7 @@ package com.adziban.adziban.customer;
 import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,14 @@ import android.widget.TextView;
 
 import com.adziban.adziban.R;
 import com.adziban.adziban.customer.dummy.DummyContent;
+import com.adziban.adziban.customer.models.MenuAdapter;
+import com.adziban.adziban.customer.models.MenuItem;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A fragment representing a list of Items.
@@ -21,21 +30,22 @@ import com.adziban.adziban.customer.dummy.DummyContent;
  * Large screen devices (such as tablets) are supported by replacing the ListView
  * with a GridView.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link MenuOnFragmentInteractionListener}
  * interface.
  */
 public class MenuFragment extends Fragment implements AbsListView.OnItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String MENU_LIST = "param1";
+//    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String mMenuList;
+    private ArrayList<MenuItem> menuList;
+//    private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private MenuOnFragmentInteractionListener mListener;
 
     /**
      * The fragment's ListView/GridView.
@@ -49,11 +59,11 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
     private ListAdapter mAdapter;
 
     // TODO: Rename and change types of parameters
-    public static MenuFragment newInstance(String param1, String param2) {
+    public static MenuFragment newInstance(String param1) {
         MenuFragment fragment = new MenuFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(MENU_LIST, param1);
+//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,13 +80,22 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mMenuList = getArguments().getString(MENU_LIST);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+            System.out.println("from the menufragmentclass " + mMenuList);
+//            convertToArrayList();
+            try {
+                menuList = MenuItem.fromJson(new JSONArray(mMenuList));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            System.out.println("from the array class "+ menuList.get(0).foodPortion);
+            mAdapter = new MenuAdapter(getActivity(),menuList);
         }
 
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+//        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
+//                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
     }
 
     @Override
@@ -98,10 +117,10 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (MenuOnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement MenuOnFragmentInteractionListener");
         }
     }
 
@@ -143,9 +162,30 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface MenuOnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
     }
+
+  /*  private void convertToArrayList(){
+        menuList = new ArrayList<MenuItem>();
+        try {
+            JSONArray jsonArray = new JSONArray(mMenuList);
+            if (jsonArray!=null){
+                for (int i = 0; i<jsonArray.length();i++){
+                    Log.d("Sheamus", "In loooop");
+                    MenuItem menuItem = new MenuItem();
+                    menuItem.foodPortion = jsonArray.getJSONObject(i).getString("foodPortion");
+                    menuItem.foodPrice = jsonArray.getJSONObject(i).getDouble("foodPrice");
+                    menuItem.foodName=jsonArray.getJSONObject(i).getString("foodName");
+                    menuItem.fId = jsonArray.getJSONObject(i).getInt("fId");
+                    menuList.add(menuItem);
+                }
+            }
+        }catch (JSONException e){
+
+        }
+
+    }*/
 
 }

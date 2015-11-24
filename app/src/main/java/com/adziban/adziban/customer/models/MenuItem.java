@@ -17,14 +17,17 @@ public class MenuItem {
 
     public MenuItem(JSONObject object){
         try {
-            this.fId = object.getInt("foodID");
-            this.foodName = object.getString("foodName");
-            this.foodPrice = object.getDouble("foodPrice");
-            this.foodPortion = object.getString("foodPortion");
+
+            fId = object.getInt("foodID");
+
+            foodName = object.getString("foodName");
+            foodPrice = object.getDouble("foodPrice");
+            foodPortion = object.getString("foodPortion");
 
         }catch (JSONException e){
 
         }
+        System.out.println("constructor "+ this.fId);
     }
 
     /*
@@ -33,14 +36,15 @@ public class MenuItem {
 
     public static ArrayList<MenuItem> fromJson(JSONArray jsonObjects) {
 
-        ArrayList<MenuItem> users = new ArrayList<MenuItem>();
+        ArrayList<MenuItem> menu = new ArrayList<MenuItem>();
 
         for (int i = 0; i < jsonObjects.length(); i++) {
 
             try {
-
-                users.add(new MenuItem(jsonObjects.getJSONObject(i)));
-
+                MenuItem newMenuItem = new MenuItem(jsonObjects.getJSONObject(i));
+                System.out.println("from new menu item class " + newMenuItem.foodPortion);
+                menu.add(newMenuItem);
+                System.out.println("from inside try catch class " + menu.get(0).foodPortion);
             } catch (JSONException e) {
 
                 e.printStackTrace();
@@ -48,8 +52,8 @@ public class MenuItem {
             }
 
         }
-
-        return users;
+        System.out.println("from the the method to convert class "+ menu.get(0).foodPortion);
+        return menu;
 
     }
 }
