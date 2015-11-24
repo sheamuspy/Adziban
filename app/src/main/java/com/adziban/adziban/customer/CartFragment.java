@@ -8,12 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.adziban.adziban.R;
 import com.adziban.adziban.customer.dummy.DummyContent;
+import com.adziban.adziban.customer.models.MenuAdapter;
+import com.adziban.adziban.customer.models.MenuItem;
+
+import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
@@ -28,12 +31,12 @@ public class CartFragment extends Fragment implements AbsListView.OnItemClickLis
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static ArrayList<MenuItem> CART_LIST = new ArrayList<>();
+//    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
+//    private String mParam2;
 
     private CartOnFragmentInteractionListener mListener;
 
@@ -49,11 +52,12 @@ public class CartFragment extends Fragment implements AbsListView.OnItemClickLis
     private ListAdapter mAdapter;
 
     // TODO: Rename and change types of parameters
-    public static CartFragment newInstance(String param1, String param2) {
+    public static CartFragment newInstance(ArrayList<MenuItem> param1) {
         CartFragment fragment = new CartFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+//        args.put(CART_LIST, param1);
+        CART_LIST = param1;
+//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,14 +73,15 @@ public class CartFragment extends Fragment implements AbsListView.OnItemClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(CART_LIST);
+////            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
 
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+//        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
+//                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+        mAdapter = new MenuAdapter(getActivity(),CART_LIST);
     }
 
     @Override

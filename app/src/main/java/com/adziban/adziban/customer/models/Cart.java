@@ -21,4 +21,8 @@ public class Cart {
     public void addToCart(MenuItem menuItem){
         cart.add(menuItem);
     }
+
+    public ArrayList<MenuItem> getCart(){
+        return cart;
+    }
 }

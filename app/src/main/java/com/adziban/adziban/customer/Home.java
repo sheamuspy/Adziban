@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.adziban.adziban.R;
+import com.adziban.adziban.customer.models.Cart;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -109,7 +110,7 @@ public class Home extends AppCompatActivity
             fragmentTask.execute((Void)null);
 
         } else if (id == R.id.nav_cart) {
-            fragment = new CartFragment();
+            fragment = CartFragment.newInstance(Cart.getInstance().getCart());
             title="My Cart";
         } else if (id == R.id.nav_history) {
             fragment = new HistoryFragment();

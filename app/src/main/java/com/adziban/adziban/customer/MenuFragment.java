@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.adziban.adziban.R;
 import com.adziban.adziban.customer.dummy.DummyContent;
+import com.adziban.adziban.customer.models.Cart;
 import com.adziban.adziban.customer.models.MenuAdapter;
 import com.adziban.adziban.customer.models.MenuItem;
 
@@ -135,7 +136,8 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+//            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+            Cart.getInstance().addToCart(menuList.get(position));
         }
     }
 
