@@ -3,6 +3,7 @@ package com.adziban.adziban.customer;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -41,7 +42,6 @@ import java.util.List;
 
 import com.adziban.adziban.R;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -319,26 +319,29 @@ public class LoginToAdziban extends AppCompatActivity implements LoaderCallbacks
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            String ip = "http://10.10.57.206/";
+            String ip = "http://cs.ashesi.edu.gh/~csashesi/class2016/david-tandoh/MobileWeb/androidphp/controller.php";
             HttpURLConnection urlConnection=null;
             boolean response = false;
             Log.d("Sheamus","entered background");
 
                 try {
-                    URL url = new URL(ip + "mobileweb/androidphp/controller.php?cmd=2&email="+mEmail+"&password="+mPassword);
-                    urlConnection = (HttpURLConnection) url.openConnection();
+                    URL url = new URL(ip + "?cmd=2&email="+mEmail+"&password="+mPassword);
                     Log.d("Sheamus",url.toString());
+                    urlConnection = (HttpURLConnection) url.openConnection();
+
                     InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                    BufferedReader buffer = new BufferedReader(
-                            new InputStreamReader(in));
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(in));
                     String s = "";
+                    String returned ="";
                     while ((s = buffer.readLine()) != null) {
-                        Log.d("Sheamus",s);
-                        JSONObject responseTxt = new JSONObject(s);
-                        int status  = responseTxt.getInt("result");
-                        if(status ==1){
-                            response = true;
-                        }
+                        returned = returned+s;
+                    }
+                    System.out.println(returned);
+                    Log.d("Sheamus", returned);
+                    JSONObject responseTxt = new JSONObject(returned);
+                    int status  = responseTxt.getInt("result");
+                    if(status == 1){
+                        response = true;
                     }
 
                 } catch (Exception e) {
@@ -359,7 +362,8 @@ public class LoginToAdziban extends AppCompatActivity implements LoaderCallbacks
             showProgress(false);
 
             if (success) {
-                finish();
+                Intent i = new Intent(LoginToAdziban.this, Home.class);
+                startActivity(i);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
