@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.adziban.adziban.R;
 import com.adziban.adziban.customer.dummy.DummyContent;
+import com.adziban.adziban.customer.models.Canteen;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -165,6 +166,11 @@ public class CanteenFragment extends Fragment implements AbsListView.OnItemClick
             JSONArray jsonArray = new JSONArray(mCanteenList);
             if (jsonArray!=null){
                 for (int i = 0; i<jsonArray.length();i++){
+                    /*Canteen canteen = new Canteen();
+                    canteen.id = jsonArray.getJSONObject(i).getInt("aid");
+                    canteen.name = jsonArray.getJSONObject(i).getString("adminstratorName");
+                    canteen.phoneNumber=jsonArray.getJSONObject(i).getString("phoneNumber");
+                    canteenList.add(canteen);*/
                     canteenList.add(jsonArray.getJSONObject(i).getString("adminstratorName"));
                 }
             }
@@ -173,5 +179,6 @@ public class CanteenFragment extends Fragment implements AbsListView.OnItemClick
         }
 
     }
+
 
 }
