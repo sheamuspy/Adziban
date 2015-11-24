@@ -3,9 +3,12 @@ package com.adziban.adziban.customer;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +20,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.adziban.adziban.R;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, CanteenFragment.CanteenOnFragmentInteractionListener, HistoryFragment.HistoryOnFragmentInteractionListener, CartFragment.CartOnFragmentInteractionListener {
@@ -89,8 +102,12 @@ public class Home extends AppCompatActivity
 
         if (id == R.id.nav_canteen) {
             // Handle the camera action
-            fragment = new CanteenFragment();
+
+//            fragment = new CanteenFragment();
             title="Canteens";
+            FragmentTask fragmentTask = new FragmentTask(id,title);
+            fragmentTask.execute((Void)null);
+
         } else if (id == R.id.nav_cart) {
             fragment = new CartFragment();
             title="My Cart";
@@ -99,12 +116,7 @@ public class Home extends AppCompatActivity
             title = "History";
         } else if (id == R.id.nav_logout) {
 
-        } /*else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }*/
-
+        }
         if(fragment!=null){
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -124,5 +136,97 @@ public class Home extends AppCompatActivity
     @Override
     public void onFragmentInteraction(String id) {
 
+    }
+
+    public class FragmentTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final int mId;
+        private String result;
+        private final String mTitle;
+
+        FragmentTask(int id, String title) {
+            mId = id;
+            mTitle = title;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+            String ip = "http://cs.ashesi.edu.gh/~csashesi/class2016/sheamus-yebisi/mobile_web/Adziban/ajax.php?";
+            HttpURLConnection urlConnection=null;
+            boolean response = false;
+            Log.d("Sheamus", "entered background");
+
+            try {
+                URL url;
+                if(mId == R.id.nav_canteen){
+                    url = new URL(ip + "cmd=0");
+                }else {
+                    return response;
+                }
+
+                Log.d("Sheamus",url.toString());
+                urlConnection = (HttpURLConnection) url.openConnection();
+
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(in));
+                String s = "";
+                String returned ="";
+                while ((s = buffer.readLine()) != null) {
+                    returned = returned+s;
+                }
+                System.out.println(returned);
+                Log.d("Sheamus", returned);
+               JSONObject responseTxt = new JSONObject(returned);
+                int status  = responseTxt.getInt("status");
+                if(status == 0){
+                    result = responseTxt.getJSONArray("administrators").toString();
+                    response = true;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            finally {
+                urlConnection.disconnect();
+            }
+
+
+            // TODO: register the new account here.
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            /*
+            mAuthTask = null;
+            showProgress(false);
+            */
+
+            if (success) {
+                Fragment fragment = null;
+                if (mId == R.id.nav_canteen){
+                    fragment  = CanteenFragment.newInstance(result);
+                }
+                if(fragment!=null) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.main, fragment);
+                    fragmentTransaction.commit();
+                    getSupportActionBar().setTitle(mTitle);
+                }
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+//                mPasswordView.setError(getString(R.string.error_incorrect_password));
+//                mPasswordView.requestFocus();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+//            mAuthTask = null;
+//            showProgress(false);
+        }
     }
 }

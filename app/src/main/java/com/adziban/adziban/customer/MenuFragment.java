@@ -15,33 +15,27 @@ import android.widget.TextView;
 import com.adziban.adziban.R;
 import com.adziban.adziban.customer.dummy.DummyContent;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.util.ArrayList;
-
 /**
  * A fragment representing a list of Items.
  * <p/>
  * Large screen devices (such as tablets) are supported by replacing the ListView
  * with a GridView.
  * <p/>
- * Activities containing this fragment MUST implement the {@link CanteenOnFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class CanteenFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class MenuFragment extends Fragment implements AbsListView.OnItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String CANTEEN_LIST = "param1";
-//    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mCanteenList;
-    private ArrayList canteenList;
-    //private String mParam2;
+    private String mParam1;
+    private String mParam2;
 
-    private CanteenOnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListener mListener;
 
     /**
      * The fragment's ListView/GridView.
@@ -55,11 +49,11 @@ public class CanteenFragment extends Fragment implements AbsListView.OnItemClick
     private ListAdapter mAdapter;
 
     // TODO: Rename and change types of parameters
-    public static CanteenFragment newInstance(String param1) {
-        CanteenFragment fragment = new CanteenFragment();
+    public static MenuFragment newInstance(String param1, String param2) {
+        MenuFragment fragment = new MenuFragment();
         Bundle args = new Bundle();
-        args.putString(CANTEEN_LIST, param1);
-        //args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,7 +62,7 @@ public class CanteenFragment extends Fragment implements AbsListView.OnItemClick
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public CanteenFragment() {
+    public MenuFragment() {
     }
 
     @Override
@@ -76,24 +70,19 @@ public class CanteenFragment extends Fragment implements AbsListView.OnItemClick
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mCanteenList = getArguments().getString(CANTEEN_LIST);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-            convertToArrayList();
-            mAdapter = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_list_item_1, android.R.id.text1, canteenList);
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
         // TODO: Change Adapter to display your content
-//        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-//                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
-
-
+        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
+                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_canteen, container, false);
+        View view = inflater.inflate(R.layout.fragment_menu, container, false);
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
@@ -109,10 +98,10 @@ public class CanteenFragment extends Fragment implements AbsListView.OnItemClick
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (CanteenOnFragmentInteractionListener) activity;
+            mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement CanteenOnFragmentInteractionListener");
+                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -154,24 +143,9 @@ public class CanteenFragment extends Fragment implements AbsListView.OnItemClick
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface CanteenOnFragmentInteractionListener {
+    public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
-    }
-
-    private void convertToArrayList(){
-        canteenList = new ArrayList<String>();
-        try {
-            JSONArray jsonArray = new JSONArray(mCanteenList);
-            if (jsonArray!=null){
-                for (int i = 0; i<jsonArray.length();i++){
-                    canteenList.add(jsonArray.getJSONObject(i).getString("adminstratorName"));
-                }
-            }
-        }catch (JSONException e){
-
-        }
-
     }
 
 }
