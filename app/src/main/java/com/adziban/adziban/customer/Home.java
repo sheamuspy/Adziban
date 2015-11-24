@@ -88,7 +88,6 @@ public class Home extends AppCompatActivity
         String title="";
 
         if (id == R.id.nav_canteen) {
-            // Handle the camera action
             fragment = new CanteenFragment();
             title="Canteens";
         } else if (id == R.id.nav_cart) {

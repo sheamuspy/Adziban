@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:maxWidth="200dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/orderName"
+        android:textSize="15dp" />
 
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:maxWidth="200dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="price"
+        android:id="@+id/price"
+        android:layout_below="@+id/orderName"
+        android:layout_alignLeft="@+id/orderName"
+        android:layout_alignStart="@+id/orderName"
+        android:textSize="12dp"
+        android:textIsSelectable="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="170dp"
+        android:maxWidth="200dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="date"
+        android:id="@+id/date"
+        android:layout_toRightOf= "@+id/orderName"
+        android:textSize="12dp"
+        android:textIsSelectable="true" />
+</RelativeLayout>
